@@ -14,6 +14,31 @@ SELECT COUNT(*) FROM users;
 
 **40000000**
 
+
+1. Select all adult users;
+
+```
+SELECT * from users where year(now()) - year(birth_date) > 18
+```
+
+(execution: 11 s, fetching: 42 ms)
+
+2. Select users from 15 to 18 years;
+
+```
+SELECT * from users where year(now()) - year(birth_date)  between 15 and 18;
+```
+
+(execution: 11 s, fetching: 23 ms)
+
+3. Find exactly one user by its birth_date
+
+```
+SELECT * from users where birth_date = '2008-06-19 22:19:30'
+```
+
+(execution: 19 s 353 ms, fetching: 9 ms)
+
 ### Btree index:
 
 ``

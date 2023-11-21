@@ -31,8 +31,8 @@ services:
       context: ./generate-data
       dockerfile: ./Dockerfile
     environment:
-      RECORDS_NUMBER: "4000000"
-      BATCH_COUNT: "1000"
+      RECORDS_NUMBER: "40000000"
+      BATCH_COUNT: "10000"
       MYSQL_URL: "root:password@tcp(mysql:3306)/app?parseTime=true"
     depends_on:
       - migrate
