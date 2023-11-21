@@ -15,6 +15,8 @@ SELECT COUNT(*) FROM users;
 **40000000**
 
 
+### Without index:
+
 1. Select all adult users;
 
 ```
