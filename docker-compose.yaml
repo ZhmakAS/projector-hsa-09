@@ -1,0 +1,43 @@
+version: '3.6'
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=password --execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 30s
+      retries: 30
+    volumes:
+      - ./provision:/docker-entrypoint-initdb.d
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  migrate:
+    image: migrate/migrate
+    volumes:
+      - ./generate-data/migrations:/migrations
+    command: [ "-path", "/migrations", "-database",  "mysql://root:password@tcp(mysql:3306)/app", "up" ]
+    depends_on:
+      mysql:
+        condition: service_healthy
+    links:
+      - mysql
+
+  generate-data:
+    build:
+      context: ./generate-data
+      dockerfile: ./Dockerfile
+    environment:
+      RECORDS_NUMBER: "4000000"
+      BATCH_COUNT: "1000"
+      MYSQL_URL: "root:password@tcp(mysql:3306)/app?parseTime=true"
+    depends_on:
+      - migrate
+
+
+volumes:
+  mysql-data:
+    driver: local
