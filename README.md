@@ -14,7 +14,6 @@ SELECT COUNT(*) FROM users;
 
 **40000000**
 
-
 ### Without index:
 
 1. Select all adult users;
@@ -83,5 +82,4 @@ If a table fits almost entirely in main memory, a hash index speeds up queries b
 ```
 
 https://dev.mysql.com/doc/refman/8.0/en/innodb-adaptive-hash.html
-
 In all other cases, BTree index is better then Hash index, so MySQL use it by default.
